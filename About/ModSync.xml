@@ -2,7 +2,7 @@
 <ModSyncNinjaData>
   <ID>81f959db-2b4b-441b-9732-dce233c04da9</ID>
   <ModName>Ladies Can Flirt Too! (Continued)</ModName>
-  <Version>1.6.0</Version>
+  <Version>1.6.1</Version>
   <SaveBreaking>False</SaveBreaking>
   <Host name="Github">
     <Owner>emipa606</Owner>
@@ -12,7 +12,4 @@
     <Branch>master</Branch>
   </Host>
 </ModSyncNinjaData>
-
-
-
 

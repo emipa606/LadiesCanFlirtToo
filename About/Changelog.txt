@@ -1,4 +1,7 @@
 # Changelog for LadiesCanFlirtToo
 
+1.6.1 - Added incompatibility tags for rational romance and psychology mods
+
+
 1.6.0 - First publish
 
