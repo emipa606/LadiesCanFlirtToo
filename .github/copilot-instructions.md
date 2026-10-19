@@ -1,55 +1,58 @@
-# GitHub Copilot Instructions for Ladies Can Flirt Too! (Continued)
+# Ladies Can Flirt Too! (Continued) Copilot Instructions
 
 ## Mod Overview and Purpose
-The "Ladies Can Flirt Too! (Continued)" mod aims to augment the romance dynamic in RimWorld by equalizing the likelihood of romantic initiation across all genders and orientations. The mod also revises the age range preferences for partner selection using the "half their age plus 7" rule, making romance more balanced and less biased by default game mechanics.
+**Mod Name:** Ladies Can Flirt Too! (Continued)  
+**Description:**  
+An update of the original mod by Sea, this mod rebalances the romance initiation mechanics in RimWorld. It ensures women initiate romance as frequently as men and that bisexual pawns have the same likelihood of initiating romance as their straight or gay counterparts. The age-based preferences for partner selection have also been adjusted, adhering to the "half their age plus 7" rule for both genders.
+
+**Purpose:**  
+- Promote gender and orientation equality in romance initiation.
+- Provide more realistic and varied age-based attraction dynamics.
+- Enhance narrative possibilities in RimWorld colonies by preventing imbalanced or unrealistic romantic scenarios.
 
 ## Key Features and Systems
-- **Equalized Romance Initiation**: All pawns, regardless of gender or orientation, have an equal chance to initiate romance as long as the pairing is compatible.
-- **Age Range Equalization**: Both male and female pawns follow the "half their age plus 7" rule for looking for partners. 
-- **Safe for Existing Saves**: The mod can be added to or removed from existing save files without issue.
-- **Compatibility Considerations**: The mod is incompatible with Rational Romance and Psychology mods, but can be used alongside Individuality with certain settings disabled.
+- **Equalized Romance Initiation:** Female and bisexual pawns initiate romances at the same rates as male and straight/gay pawns.
+- **Age Range Adjustment:** Partners are sought using the "half their age plus 7" rule, offering a balanced mechanism for age preference.
+- **Compatibility:** Works alongside multiple mods as long as those mods do not alter romance mechanics.
 
 ## Coding Patterns and Conventions
-- **Static Class Use**: All classes, such as `InteractionWorker_RomanceAttempt__RandomSelectionWeight` and `Pawn_RelationsTracker__LovinAgeFactor`, are defined as static to focus purely on methods that override or extend existing game behavior.
-- **Method Simplicity**: Methods within these classes should aim to be concise and self-contained, ensuring modifications are clear and maintainable.
-- **Descriptive Naming**: Use verbose and descriptive method and class names to clearly indicate functionality and intent, following the pattern seen throughout the project.
+- **Consistent Naming:** Follow C# naming conventions (PascalCase for types and methods).
+- **Modularity:** Each C# file is designed to target specific areas, such as random selection weights or age factors.
+- **Separation of Concerns:** Logic for different features isolated into dedicated classes and methods.
 
 ## XML Integration
-While the primary code changes are in C#, XML files might be used to support translations or future configuration options. Ensure that XML node names and attributes are descriptive and follow consistent naming conventions that align with the mod's C# structure.
+- **About.xml:** Contains metadata for the mod, such as name, author, and package information.
+- **Configuration:** Additional XML files might be required to manage mod settings or integration with other mods, but currently limited to metadata.
 
 ## Harmony Patching
-This mod makes extensive use of Harmony to patch the original game logic without altering the base game files:
-- **Transpilers Where Necessary**: Use Harmony transpilers to modify methods' intermediate language when patching simple methods isn't sufficient.
-- **Prefix and Postfix Methods**: Implement Harmony's prefix and postfix methods to insert or append logic to existing game functions without removing their original functionality.
+- **Library:** Uses Harmony (brrainz.harmony) for runtime patching of core RimWorld methods.
+- **Patch Types:**
+  - **Transpiler:** Modifies the IL code of romance attempt selection for randomization.
+  - **Prefix:** Adjusts the age factor computations pre-execution to implement new attraction rules.
+- **Focus**: Non-destructive and reversible changes preserving original game functionality.
 
 ## Suggestions for Copilot
-- Suggest code patterns for modifying existing static class methods from the vanilla game, especially those related to pawn interactions and relationship dynamics.
-- Generate detailed method stubs for calculating romance initiation weights and partner age ranges using the specified rules.
-- Assist with creating XML configuration options if needed for future expansibility.
-- When providing Harmony patches, suggest appropriate use cases for prefix, postfix, and transpiler methods, balancing mod behavior with performance.
-- Offer guidance on implementing compatibility checks when used in conjunction with other mods that modify similar aspects.
+- **Code Generation:** Assist in developing future patches or updates by generating sample Harmony patches or RimWorld-specific C# methods.
+- **Error Logging:** Recommend efficient logging practices to trace issues stemming from mod interactions.
+- **Integration Assistance:** Suggest structure for potential XML files to manage dynamic configurations and mod settings.
+- **Optimization Tips:** Provide guidance or best practices on optimizing patch performance and maintaining compatibility across game updates.
 
-### Examples for Specific Use Cases
-- Calculate the adjusted romance initiation weight:
-  csharp
-  public static float AdjustedRomanceWeight(Pawn initiator, Pawn recipient)
-  {
-      float baseWeight = ...; // Determine base weight from game logic
-      return baseWeight * (initiator.gender == recipient.gender ? 1.0f : 0.85f);
-  }
-  
+---
 
-- Harmony Patch Example:
-  csharp
-  [HarmonyPatch(typeof(InteractionWorker_RomanceAttempt), "RandomSelectionWeight")]
-  public static class InteractionWorker_RomanceAttempt__RandomSelectionWeight_Patch
-  {
-      public static bool Prefix(Pawn initiator, ref float __result)
-      {
-          __result = AdjustedRomanceWeight(initiator, ...);
-          return false; // Skip original logic
-      }
-  }
-  
+For inquiries or issues with the mod, please use the designated Discord for real-time support. Respective logs should be submitted via the log uploader for efficient troubleshooting.
 
-This documentation should guide developers and Copilot in maintaining the intended functionality and style of the "Ladies Can Flirt Too!" mod.
+## Project Solution Guidelines
+- Relevant mod XML files are included as Solution Items under the solution folder named XML, these can be read and modified from within the solution.
+- Use these in-solution XML files as the primary files for reference and modification.
+- The `.github/copilot-instructions.md` file is included in the solution under the `.github` solution folder, so it should be read/modified from within the solution instead of using paths outside the solution. Update this file once only, as it and the parent-path solution reference point to the same file in this workspace.
+- When making functional changes in this mod, ensure the documented features stay in sync with implementation; use the in-solution `.github` copy as the primary file.
+- In the solution is also a project called Assembly-CSharp, containing a read-only version of the decompiled game source, for reference and debugging purposes.
+- For any new documentation, update this copilot-instructions.md file rather than creating separate documentation files.
+
+
+## Hard rules (must follow)
+- Do NOT run commands that modify the repo (no git commit, git apply, dotnet format) unless explicitly asked.
+- Prefer minimal reads: read only the smallest code region needed (around the suspicious lines).
+- When mentioning SonarQube issues, automatically use the SonarQube MCP service to fetch and address issues instead of making inferred fixes without querying SonarQube first.
+- When mentioning the rimworld log, automatically use the Rimworld MCP service to fetch the log.
+
